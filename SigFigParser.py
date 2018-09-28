@@ -31,7 +31,10 @@ def BstPlusMinusErr(bst,err):
     #Work in Progress. Works for errors less 1, less so for others.
     bst = float(bst)
     err = float(err)
-    errBit = math.floor(math.log10(err))
+    if err == 0:
+        return str(bst)
+    else:
+        errBit = math.floor(math.log10(err))
     errPl = errBit
     if err*10**(-1*errBit) < 2 :
         errOut = formatgButConfigurable(err,2)

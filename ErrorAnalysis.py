@@ -1,15 +1,16 @@
 import numpy as np
-from numpy import sqrt
+from math import sqrt
 import csv
 import math
 import sys
 import re
 
 sys_error_presets = {
-    "10kOmega":"0.0075*0.01*self.value + 0.0006 * 0.01 * 10000",
-    "1kOmega" :"0.0075*0.01*self.value + 0.0006 * 0.01 * 1000",
-    "10Volt"  :"0.0025*0.01*self.value + 0.0005 * 0.01 * 10",
-    "1Volt"   :"0.0025*0.01*self.value + 0.0006 * 0.01 * 1"
+    "10kOmega": "0.0075*0.01*self.value + 0.0006 * 0.01 * 10000",
+    "1kOmega" : "0.0075*0.01*self.value + 0.0006 * 0.01 * 1000",
+    "10Volt"  : "0.0025*0.01*self.value + 0.0005 * 0.01 * 10",
+    "1Volt"   : "0.0025*0.01*self.value + 0.0006 * 0.01 * 1",
+    "Exact"   : "0"
 }
 def dist(x,y):
     return sqrt(x**2 + y**2)
@@ -19,7 +20,10 @@ class DataPoint :
         if not override :
             values = list(map(float,values))
             self.value = np.mean(values)
-            self.rng_error = np.std(values,ddof=1)/np.sqrt(abs(self.value))
+            if len(values) > 1:
+                self.rng_error = np.std(values,ddof=1)/np.sqrt(abs(self.value))
+            else :
+                self.rng_error = 0
             exec("self.sys_error = " + sys_error_eq)
             self.error = sqrt(self.rng_error**2 + self.sys_error**2)
         else :
