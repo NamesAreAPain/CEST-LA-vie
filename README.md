@@ -12,8 +12,12 @@ ExperimentData.csv should be formatted with the first line being column headers,
   3) CALC_\[ColumnName]: These columns will be populated with calculated values, based on the expression in the second row. They will generate an "ColumnName\_BST" and "ColumnName\_ERR" in the error analysis output, and a combined "ColumnName" in the SigFig output. 
 
 (NOTE: CALC_\[ColumnTitle] columns can only do calculations based on columns to their left, and must be space delimited:
+
   Imagine Dataset "R_T1,R_T2,R_T3,I_T1,I_T2,I_T3,CALC_V"
+  
   In the second line of CALC_V,
+  
     WORKS: I * R
+    
     FAILS: I\*R
 )
