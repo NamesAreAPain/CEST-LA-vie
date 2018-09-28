@@ -5,6 +5,8 @@ Usage:
 
 python ErrorPlusSigFig.py \[ExperimentData.csv]
 
+The program will ask for the Systematic Error type. Just select one of the keys to the dictionary it prints before hand. If you need to add one, the dictionary is at the top of ErrorAnalysis.py. Feel free to make a pull request.
+
 ExperimentData.csv should be formatted with the first line being column headers, with either 
   1) No tag : These columns will be copied as is into the output tables
   2) "\[ColumnName]\_T\[N]" Where ColumnName is the name of the column, with no spaces, and N is a natural number: 
