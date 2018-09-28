@@ -19,5 +19,5 @@ ExperimentData.csv should be formatted with the first line being column headers,
   
     WORKS: I * R
     
-    FAILS: I\*R
+    FAILS: I*R
 )
