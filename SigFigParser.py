@@ -1,6 +1,7 @@
 import csv
 import math
 import sys
+import re
 def SigFigFormatter(filename):
     
     with open(filename,'r',newline='') as csvIn, open(filename[:-4]+"Sigfig.csv",'w',newline='') as csvOut:
@@ -41,33 +42,28 @@ def BstPlusMinusErr(bst,err):
     else :
         errOut = formatgButConfigurable(err,1)
     return truncateAtPlace(bst,errBit) + "$\pm$" + errOut
-     
+
 def formatgButConfigurable(num2fmt,sigfigs):
-    if num2fmt == 0: 
-        return '0'
-    strnum = '{:.30f}'.format(num2fmt)
-    firstsigfig = 0
-    for i in strnum :
-        if i != '0' and i != '.':
-            break;
-        firstsigfig += 1
-    zneeded = math.floor(math.log10(num2fmt))
-    if zneeded < 0:
-        zneeded = 0
-    return strnum[0:firstsigfig+sigfigs] + (zneeded-1)*'0'
-
+    if float(num2fmt) == 0 :
+        return "0"
+    sigfigs = int(sigfigs)
+    fmt = "{:."+str(sigfigs)+"g}"
+    gfmted = fmt.format(float(num2fmt))
+    longstring = "{:.10f}".format(float(gfmted))
+    pos = re.search('[123456789]',longstring).start()
+    decpos = re.search('\.',longstring).start()
+    zeros = decpos-pos-sigfigs
+    if float(num2fmt) < 1 :
+        zeros = 0
+    return longstring[0:pos+sigfigs + ( -1*zeros if zeros < 0 else 0)] + '0'*(zeros if zeros > 0 else 0)
 def truncateAtPlace(numIn,pl):
-    strnum = '{:.30f}'.format(numIn)
-    dpat = 0
-    for i in strnum:
-        if i == '.':
-            break
-        dpat += 1
-    if pl <= 0:
-        pl -= 1
-    return strnum[0:dpat-pl]+"0"*(pl if pl > 0 else 0)
-
-
+    numIn = round(numIn,-1*pl)
+    if pl > 0 :
+        numIn = int(numIn)
+    elif pl < 0 :
+        fmt = "{:." + str(int(-1*pl)) +"f}"
+        numIn = fmt.format(float(numIn))
+    return str(numIn)
 
 if __name__ == "__main__":
     if len(sys.argv) > 1:
