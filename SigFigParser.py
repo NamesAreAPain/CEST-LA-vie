@@ -36,9 +36,9 @@ def BstPlusMinusErr(bst,err):
         return str(bst)
     else:
         errBit = math.floor(math.log10(err))
-    errPl = errBit
     if err*10**(-1*errBit) < 2 :
         errOut = formatgButConfigurable(err,2)
+        errBit -= 1
     else :
         errOut = formatgButConfigurable(err,1)
     return truncateAtPlace(bst,errBit) + "$\pm$" + errOut
