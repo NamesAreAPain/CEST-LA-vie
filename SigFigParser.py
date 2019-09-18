@@ -29,6 +29,7 @@ def SigFigFormatter(filename):
             writer.writerow(rowout)
                 
 def BstPlusMinusErr(bst,err):
+    #Work in Progress. Works for errors less 1, less so for others.
     bst = float(bst)
     err = float(err)
     if err == 0:
